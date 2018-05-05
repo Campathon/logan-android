@@ -10,6 +10,8 @@ public class CardItem {
     public String name;
     public String image;
     public int quantity;
+    public String alias;
+    public String description;
 
     public CardItem() {}
 

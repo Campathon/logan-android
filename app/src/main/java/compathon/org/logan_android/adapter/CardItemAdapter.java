@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,7 +47,9 @@ public class CardItemAdapter extends RecyclerView.Adapter<CardItemAdapter.CardIt
 
     @Override
     public void onBindViewHolder(@NonNull CardItemHolder holder, final int position) {
-        holder.tvName.setText(cardItemList.get(position).name);
+        CardItem cardItem = cardItemList.get(position);
+
+        holder.tvName.setText(cardItem.name);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,11 +58,16 @@ public class CardItemAdapter extends RecyclerView.Adapter<CardItemAdapter.CardIt
         });
 
         if (cardItemList.get(position).quantity != 0) {
-            holder.tvQuantity.setText(String.valueOf(cardItemList.get(position).quantity));
+            holder.tvQuantity.setText(String.valueOf(cardItem.quantity));
         } else {
             holder.tvQuantity.setText("");
         }
 
+        holder.tvAlias.setText(cardItem.alias);
+
+        Picasso.with(context).load(cardItem.image)
+                .error(R.mipmap.ic_launcher_round)
+                .into(holder.imvThumbnail);
     }
 
     @Override
@@ -140,6 +150,10 @@ public class CardItemAdapter extends RecyclerView.Adapter<CardItemAdapter.CardIt
         TextView tvName;
         @BindView(R.id.tvQuantity)
         TextView tvQuantity;
+        @BindView(R.id.imvThumbnail)
+        ImageView imvThumbnail;
+        @BindView(R.id.tvAlias)
+        TextView tvAlias;
 
         public CardItemHolder(View itemView) {
             super(itemView);

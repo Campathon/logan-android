@@ -81,7 +81,7 @@ public class RequestService {
         if (DialogUtils.checkNetworkWithAlert(context)) {
             AsyncHttpClient client = new AsyncHttpClient();
 
-            client.post(url, params, new TextHttpResponseHandler() {
+            client.get(url, params, new TextHttpResponseHandler() {
                 @Override
                 public void onStart() {
                     if (dialog != null) {
@@ -93,6 +93,7 @@ public class RequestService {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.e(TAG, "responseString:" + responseString);
                     DialogUtils.showDialog(context, context.getString(R.string.serverInternalError));
                 }
 
@@ -104,7 +105,7 @@ public class RequestService {
 
                     if (jsonObject.get("success").getAsBoolean()) {
                         if (requestComplete != null) {
-                            requestComplete.onComplete(true, 200, !jsonObject.get("message").isJsonNull() ? jsonObject.get("message").getAsString() : "", jsonObject.get("data"));
+                            requestComplete.onComplete(true, 200, "", jsonObject.get("data"));
                         }
                     }
                 }

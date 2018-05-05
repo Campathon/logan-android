@@ -1,18 +1,22 @@
 package compathon.org.logan_android.activity;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,11 +28,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import compathon.org.logan_android.R;
+import compathon.org.logan_android.adapter.CardGridAdapter;
 import compathon.org.logan_android.adapter.UserRoomAdapter;
+import compathon.org.logan_android.callback.RequestComplete;
 import compathon.org.logan_android.common.Constants;
 import compathon.org.logan_android.common.DialogUtils;
 import compathon.org.logan_android.common.ListAPI;
+import compathon.org.logan_android.model.CardItem;
 import compathon.org.logan_android.model.User;
+import compathon.org.logan_android.service.RequestService;
+import compathon.org.logan_android.view.GridSpacingItemDecoration;
 import compathon.org.logan_android.view.SpacingItemDecoration;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -58,10 +67,23 @@ public class InRoomActivity extends AppCompatActivity{
     UserRoomAdapter userRoomAdapter;
     LinearLayoutManager layoutManagerUser;
 
+    @BindView(R.id.lvGridCard)
+    RecyclerView lvGridCard;
+    CardGridAdapter cardGridAdapter;
+    GridLayoutManager layoutManagerCard;
+
     @BindView(R.id.toolbarInRoomActivity)
     LinearLayout toolbarInRoomActivity;
 
+    @BindView(R.id.layoutStartView)
+    LinearLayout layoutStartView;
+
+    @BindView(R.id.tvUserJoinCount)
+    TextView tvUserJoinCount;
+
+
     private List<User> userList;
+    private List<CardItem> cardItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,32 +91,46 @@ public class InRoomActivity extends AppCompatActivity{
         setContentView(R.layout.activity_in_room);
         ButterKnife.bind(InRoomActivity.this);
         userList = new ArrayList<>();
+        cardItemList = new ArrayList<>();
         initViews();
 
         try {
-            socket = IO.socket(ListAPI.BASE_URL);
+            IO.Options opts = new IO.Options();
+            opts.query = "room=" + roomCode;
+            socket = IO.socket(ListAPI.BASE_URL, opts);
 
             if (isHost) {
-                btnStart.setVisibility(View.VISIBLE);
-                socket.emit("room",  roomCode);
-                socket.on("newUser", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        Log.e(TAG, StringUtils.join(args));
-                    }
-                });
+                layoutStartView.setVisibility(View.VISIBLE);
             } else {
-                btnStart.setVisibility(View.GONE);
-                socket.emit("room",  roomCode);
+                layoutStartView.setVisibility(View.GONE);
             }
 
+            socket.on("newUser", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    Log.e(TAG, StringUtils.join(args));
+                    if (args.length >= 1) {
+                        User user = new Gson().fromJson(args[0].toString(), User.class);
+                        if (user != null) {
+                            userList.add(user);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    userRoomAdapter.notifyDataSetChanged();
+                                    tvUserJoinCount.setText(userList.size() + " người tham gia");
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+
             socket.connect();
-            //Log.e(TAG, "" + socket.hasListeners(event));
-            //Log.e(TAG, "" + socket.hasListeners("newUser"));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
+        getCardList();
     }
 
     @OnClick({R.id.tvExit})
@@ -111,6 +147,21 @@ public class InRoomActivity extends AppCompatActivity{
             default:
                 break;
         }
+    }
+
+    private void getCardList() {
+
+        RequestService.get(this, ListAPI.LIST_CARD, null, null, new RequestComplete() {
+            @Override
+            public void onComplete(boolean success, int status, String message, JsonElement data) {
+                if (success) {
+                    List<CardItem> results = new Gson().fromJson(data, new TypeToken<List<CardItem>>(){}.getType());
+                    cardItemList.addAll(results);
+                    cardGridAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
     }
 
     private void initViews() {
@@ -131,13 +182,15 @@ public class InRoomActivity extends AppCompatActivity{
         lvUsersRoom.setNestedScrollingEnabled(false);
         lvUsersRoom.addItemDecoration(new SpacingItemDecoration(this, 1, (int) getResources().getDimension(R.dimen.padding_small)));
 
-
-        for (int i = 0; i < 10; i++) {
-            userList.add(new User(i, "Tè tè " + i));
-        }
-
         userRoomAdapter = new UserRoomAdapter(this, userList);
         lvUsersRoom.setAdapter(userRoomAdapter);
+
+        layoutManagerCard = new GridLayoutManager(this, 3);
+        layoutManagerCard.setOrientation(LinearLayoutManager.VERTICAL);
+        lvGridCard.setLayoutManager(layoutManagerCard);
+        lvGridCard.addItemDecoration(new GridSpacingItemDecoration(3, (int) 0, true));
+        cardGridAdapter = new CardGridAdapter(this, cardItemList);
+        lvGridCard.setAdapter(cardGridAdapter);
     }
 
     @Override

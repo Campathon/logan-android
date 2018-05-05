@@ -7,10 +7,14 @@ package compathon.org.logan_android.model;
 public class User {
 
     public int id;
-    public String username;
+    public String name;
+    public String status;
+    public String card;
 
-    public User(int id, String username) {
+    public User() {}
+
+    public User(int id, String name) {
         this.id = id;
-        this.username = username;
+        this.name = name;
     }
 }

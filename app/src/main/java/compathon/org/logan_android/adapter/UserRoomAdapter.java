@@ -55,9 +55,9 @@ public class UserRoomAdapter extends RecyclerView.Adapter<UserRoomAdapter.UserHo
         // generate random color
         int color = generator.getRandomColor();
         TextDrawable drawable = TextDrawable.builder()
-                .buildRound(String.valueOf(user.username.charAt(0)),color); // radius in px
+                .buildRound(String.valueOf(user.name.charAt(0)),color); // radius in px
 
-        holder.tvUsername.setText(user.username);
+        holder.tvUsername.setText(user.name);
         holder.imvAvatar.setImageDrawable(drawable);
     }
 

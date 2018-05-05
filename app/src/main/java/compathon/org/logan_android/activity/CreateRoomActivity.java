@@ -10,13 +10,13 @@ import compathon.org.logan_android.R;
  * Created by Andy on 5/5/2018
  */
 
-public class HostRoomActivity extends AppCompatActivity {
+public class CreateRoomActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_room);
-        ButterKnife.bind(HostRoomActivity.this);
+        ButterKnife.bind(CreateRoomActivity.this);
     }
 
 }

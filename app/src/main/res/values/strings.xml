@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Logan Android</string>
 
+    <!-- COMMON -->
+    <string name="invalidNumberRoom">Số phòng không hợp lệ</string>
+
     <!-- HOME ACTIVITY -->
     <string name="hintNumberRoom">Nhập số phòng</string>
     <string name="btnJoin">Tham gia</string>

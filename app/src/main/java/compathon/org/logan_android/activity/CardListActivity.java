@@ -35,13 +35,23 @@ public class CardListActivity extends AppCompatActivity {
     LinearLayoutManager layoutManagerCardList;
     CardItemAdapter cardItemAdapter;
 
+    private String roomId;
+    private int roomCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_list);
         ButterKnife.bind(CardListActivity.this);
 
+        passData();
+
         initView();
+    }
+
+    private void passData() {
+        roomId = getIntent().getStringExtra(Constants.kRoomId);
+        roomCode = getIntent().getIntExtra(Constants.kRoomCode, 0);
     }
 
     private void initView() {
@@ -49,8 +59,7 @@ public class CardListActivity extends AppCompatActivity {
         setSupportActionBar(toolbarCardListActivity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
-
-
+        getSupportActionBar().setTitle("Phòng chơi số: " + String.format("%02d", roomCode));
         layoutManagerCardList = new LinearLayoutManager(this);
         layoutManagerCardList.setOrientation(LinearLayoutManager.VERTICAL);
         lvCardList.setLayoutManager(layoutManagerCardList);

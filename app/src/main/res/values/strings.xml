@@ -1,8 +1,11 @@
 <resources>
-    <string name="app_name">Logan Android</string>
+    <string name="app_name">Logan</string>
 
     <!-- COMMON -->
     <string name="invalidNumberRoom">Số phòng không hợp lệ</string>
+    <string name="noInternetConnection">Không có kết nối mạng</string>
+    <string name="serverInternalError">Something went wrong</string>
+    <string name="loadingMessage">Đợi trong giây lát...</string>
 
     <!-- HOME ACTIVITY -->
     <string name="hintNumberRoom">Nhập số phòng</string>

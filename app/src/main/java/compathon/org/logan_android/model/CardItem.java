@@ -6,10 +6,9 @@ package compathon.org.logan_android.model;
 
 public class CardItem {
 
-    public String id;
+    public String _id;
     public String name;
-    public String thumbnailUrl;
-    public String imageUrl;
+    public String image;
     public int quantity;
 
     public CardItem() {}

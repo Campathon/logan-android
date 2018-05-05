@@ -1,5 +1,6 @@
 package compathon.org.logan_android.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,12 +10,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import compathon.org.logan_android.R;
+import compathon.org.logan_android.callback.RequestComplete;
+import compathon.org.logan_android.common.Constants;
 import compathon.org.logan_android.common.DialogUtils;
+import compathon.org.logan_android.common.ListAPI;
 import compathon.org.logan_android.common.MathUtils;
+import compathon.org.logan_android.model.Room;
+import compathon.org.logan_android.service.RequestService;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -57,8 +66,24 @@ public class HomeActivity extends AppCompatActivity {
 
                 break;
             case R.id.btnCreateRoom:
-                Intent intentCreateRoom = new Intent(HomeActivity.this, CardListActivity.class);
-                startActivity(intentCreateRoom);
+
+                ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
+
+                RequestService.post(this, ListAPI.CREATE_ROOM, null, dialog, new RequestComplete() {
+                    @Override
+                    public void onComplete(boolean success, int status, String message, JsonElement data) {
+                        Log.e(TAG, data.getAsJsonObject().toString());
+                        if (success) {
+                            Room room = new Gson().fromJson(data, Room.class);
+
+                            Intent intentCreateRoom = new Intent(HomeActivity.this, CardListActivity.class);
+                            intentCreateRoom.putExtra(Constants.kRoomId, room._id);
+                            intentCreateRoom.putExtra(Constants.kRoomCode, room.code);
+                            startActivity(intentCreateRoom);
+                        }
+                    }
+                });
+
                 break;
             default:
                 break;

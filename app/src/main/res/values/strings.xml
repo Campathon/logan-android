@@ -3,12 +3,14 @@
 
     <!-- COMMON -->
     <string name="invalidNumberRoom">Số phòng không hợp lệ</string>
+    <string name="invalidUsername">Tên không không được để trống</string>
     <string name="noInternetConnection">Không có kết nối mạng</string>
     <string name="serverInternalError">Something went wrong</string>
     <string name="loadingMessage">Đợi trong giây lát...</string>
 
     <!-- HOME ACTIVITY -->
     <string name="hintNumberRoom">Nhập số phòng</string>
+    <string name="hintNameInRoom">Tên hiển thị</string>
     <string name="btnJoin">Tham gia</string>
     <string name="btnCreateRoom">Tạo phòng</string>
 

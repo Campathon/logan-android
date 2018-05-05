@@ -12,6 +12,11 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.StringEntity;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbarHomeActivity)
     Toolbar toolbarHomeActivity;
+    @BindView(R.id.edtUsername)
+    EditText edtUsername;
 
     private static final String TAG = "HomeActivity";
 
@@ -53,23 +60,48 @@ public class HomeActivity extends AppCompatActivity {
 
     @OnClick({R.id.btnJoinNow, R.id.btnCreateRoom})
     public void onClick(View v) {
+        ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
         switch (v.getId()) {
             case R.id.btnJoinNow:
-                Intent intentJoinNow = new Intent(HomeActivity.this, InRoomActivity.class);
 
                 int numberRoom = MathUtils.parseInt(edtNumberRoom.getText().toString(), 0);
-                if (numberRoom > 0) {
-                    startActivity(intentJoinNow);
-                } else {
+                if (numberRoom == 0) {
                     DialogUtils.showDialog(this, getString(R.string.invalidNumberRoom));
+                    break;
                 }
+
+                String username = edtUsername.getText().toString();
+                if (!StringUtils.isNotBlank(username)) {
+                    DialogUtils.showDialog(this, getString(R.string.invalidUsername));
+                    break;
+                }
+
+                JSONObject params = new JSONObject();
+                try {
+                    params.put("name", username);
+                    params.put("room", numberRoom);
+
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+                StringEntity entity = new StringEntity(params.toString(), "UTF-8");
+
+                RequestService.post(this, ListAPI.JOIN_ROOM, entity, dialog, new RequestComplete() {
+                    @Override
+                    public void onComplete(boolean success, int status, String message, JsonElement data) {
+                        Log.e(TAG, "data: " + data);
+                        if (success) {
+                            Intent intentJoinNow = new Intent(HomeActivity.this, InRoomActivity.class);
+                            startActivity(intentJoinNow);
+                        }
+                    }
+                });
+
 
                 break;
             case R.id.btnCreateRoom:
-
-                ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
-
-                RequestService.post(this, ListAPI.CREATE_ROOM, null, dialog, new RequestComplete() {
+                RequestService.post(this, ListAPI.CREATE_ROOM, new RequestParams(), dialog, new RequestComplete() {
                     @Override
                     public void onComplete(boolean success, int status, String message, JsonElement data) {
                         Log.e(TAG, data.getAsJsonObject().toString());

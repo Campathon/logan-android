@@ -43,6 +43,11 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.6'
     compile 'org.apache.httpcomponents:httpcore:4.3.2'
 
+    compile ('io.socket:socket.io-client:1.0.0') {
+        // excluding org.json which is provided by Android
+        exclude group: 'org.json', module: 'json'
+    }
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     testImplementation 'junit:junit:4.12'

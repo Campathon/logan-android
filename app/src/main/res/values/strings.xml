@@ -8,4 +8,7 @@
     <string name="hintNumberRoom">Nhập số phòng</string>
     <string name="btnJoin">Tham gia</string>
     <string name="btnCreateRoom">Tạo phòng</string>
+
+    <!-- CARD LIST -->
+    <string name="btnConfirm">Xác nhận</string>
 </resources>

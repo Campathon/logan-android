@@ -21,5 +21,6 @@
 
     <!-- IN ROOM -->
     <string name="btnStart">Bắt đầu</string>
-
+    <string name="btnExit">Thoát</string>
+    <string name="confirmExit">Bạn có muốn thoát khỏi phòng này?</string>
 </resources>

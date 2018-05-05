@@ -21,6 +21,12 @@ android {
     }
 }
 
+repositories{
+    maven {
+        url 'http://dl.bintray.com/amulyakhare/maven'
+    }
+}
+
 ext {
     supportVersion = '27.+'
 }
@@ -47,6 +53,9 @@ dependencies {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
+    // https://mvnrepository.com/artifact/com.google.zxing/core
+    compile group: 'com.google.zxing', name: 'core', version: '2.0'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 

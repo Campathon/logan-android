@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (v.getId()) {
             case R.id.btnJoinNow:
                 String username = edtUsername.getText().toString();
-                int numberRoom = MathUtils.parseInt(edtNumberRoom.getText().toString(), 0);
+                final int numberRoom = MathUtils.parseInt(edtNumberRoom.getText().toString(), 0);
                 if (numberRoom == 0) {
                     DialogUtils.showDialog(this, getString(R.string.invalidNumberRoom));
                 } else if (!StringUtils.isNotBlank(username)) {
@@ -86,9 +86,10 @@ public class HomeActivity extends AppCompatActivity {
                     RequestService.post(this, ListAPI.JOIN_ROOM, entity, dialog, new RequestComplete() {
                         @Override
                         public void onComplete(boolean success, int status, String message, JsonElement data) {
-                            Log.e(TAG, "data: " + data);
                             if (success) {
                                 Intent intentJoinNow = new Intent(HomeActivity.this, InRoomActivity.class);
+                                intentJoinNow.putExtra(Constants.kRoomCode, numberRoom);
+                                intentJoinNow.putExtra(Constants.kHostRoom, false);
                                 startActivity(intentJoinNow);
                             }
                         }
@@ -104,9 +105,10 @@ public class HomeActivity extends AppCompatActivity {
                         if (success) {
                             Room room = new Gson().fromJson(data, Room.class);
 
-                            Intent intentCreateRoom = new Intent(HomeActivity.this, CardListActivity.class);
+                            Intent intentCreateRoom = new Intent(HomeActivity.this, InRoomActivity.class);
                             intentCreateRoom.putExtra(Constants.kRoomId, room._id);
                             intentCreateRoom.putExtra(Constants.kRoomCode, room.code);
+                            intentCreateRoom.putExtra(Constants.kHostRoom, true);
                             startActivity(intentCreateRoom);
                         }
                     }

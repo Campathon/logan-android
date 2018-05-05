@@ -19,4 +19,7 @@
     <string name="btnConfirm">Xác nhận</string>
 
 
+    <!-- IN ROOM -->
+    <string name="btnStart">Bắt đầu</string>
+
 </resources>

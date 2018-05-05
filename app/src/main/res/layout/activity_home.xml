@@ -21,6 +21,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
             android:layout_marginBottom="@dimen/padding_largest">
 
             <EditText
@@ -30,6 +31,8 @@
                 android:inputType="number"
                 android:hint="@string/hintNumberRoom"
                 android:textSize="14sp"
+                android:maxLength="10"
+                android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"/>
 
@@ -38,6 +41,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/TextLabel"
             android:layout_marginBottom="@dimen/padding_medium">
 
             <EditText
@@ -46,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hintNameInRoom"
                 android:textSize="14sp"
+                android:maxLength="30"
+                android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"/>
 
@@ -67,7 +73,7 @@
         <Button
             android:id="@+id/btnJoinNow"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height_medium"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/bg_button_join"
             android:textColor="@android:color/white"
@@ -85,7 +91,7 @@
         <Button
             android:id="@+id/btnCreateRoom"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height_medium"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/bg_button_create_room"
             android:textColor="@android:color/white"

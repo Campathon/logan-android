@@ -68,7 +68,12 @@ public class RequestService {
                         if (requestComplete != null) {
                             requestComplete.onComplete(true, 200,  "", jsonObject.get("data"));
                         }
+                    } else {
+                        if (jsonObject.has("message")) {
+                            DialogUtils.showDialog(context, jsonObject.get("message").getAsString());
+                        }
                     }
+
                 }
 
                 @Override
@@ -114,6 +119,10 @@ public class RequestService {
                     if (jsonObject.get("success").getAsBoolean()) {
                         if (requestComplete != null) {
                             requestComplete.onComplete(true, 200,  "", jsonObject.get("data"));
+                        }
+                    } else {
+                        if (jsonObject.has("message")) {
+                            DialogUtils.showDialog(context, jsonObject.get("message").getAsString());
                         }
                     }
                 }
@@ -162,6 +171,13 @@ public class RequestService {
                         if (requestComplete != null) {
                             requestComplete.onComplete(true, 200, "", jsonObject.get("data"));
                         }
+                    } else {
+                        if (jsonObject.has("message")) {
+                            DialogUtils.showDialog(context, jsonObject.get("message").getAsString());
+                        }
+//                        if (requestComplete != null) {
+//                            requestComplete.onComplete(false, 200,  jsonObject.get("message").getAsString(), jsonObject.get("data"));
+//                        }
                     }
                 }
 

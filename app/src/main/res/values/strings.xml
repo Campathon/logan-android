@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">logan_android</string>
+    <string name="app_name">Logan Android</string>
+
+    <!-- HOME ACTIVITY -->
+    <string name="hintNumberRoom">Nhập số phòng</string>
+    <string name="btnJoin">Tham gia</string>
+    <string name="btnCreateRoom">Tạo phòng</string>
 </resources>

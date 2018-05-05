@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -25,6 +27,9 @@ import compathon.org.logan_android.view.SpacingItemDecoration;
 
 public class CardListActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbarCardListActivity)
+    Toolbar toolbarCardListActivity;
+
     @BindView(R.id.lvCardList)
     RecyclerView lvCardList;
     LinearLayoutManager layoutManagerCardList;
@@ -40,6 +45,12 @@ public class CardListActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
+        setSupportActionBar(toolbarCardListActivity);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
+
+
         layoutManagerCardList = new LinearLayoutManager(this);
         layoutManagerCardList.setOrientation(LinearLayoutManager.VERTICAL);
         lvCardList.setLayoutManager(layoutManagerCardList);
@@ -64,6 +75,17 @@ public class CardListActivity extends AppCompatActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

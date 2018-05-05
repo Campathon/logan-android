@@ -3,7 +3,9 @@ package compathon.org.logan_android.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -19,6 +21,9 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.edtNumberRoom)
     EditText edtNumberRoom;
 
+    @BindView(R.id.toolbarHomeActivity)
+    Toolbar toolbarHomeActivity;
+
     private static final String TAG = "HomeActivity";
 
     @Override
@@ -26,6 +31,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(HomeActivity.this);
+        initView();
+    }
+
+    private void initView() {
+
+        setSupportActionBar(toolbarHomeActivity);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
+
     }
 
     @OnClick({R.id.btnJoinNow, R.id.btnCreateRoom})
@@ -48,6 +62,17 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

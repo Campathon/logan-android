@@ -11,8 +11,9 @@
     <!-- HOME ACTIVITY -->
     <string name="hintNumberRoom">Nhập số phòng</string>
     <string name="hintNameInRoom">Tên hiển thị</string>
-    <string name="btnJoin">Tham gia</string>
+    <string name="btnJoin">Vào phòng</string>
     <string name="btnCreateRoom">Tạo phòng</string>
+    <string name="tipChooseHostRoom">Hoặc trở thành quản trò</string>
 
     <!-- CARD LIST -->
     <string name="btnConfirm">Xác nhận</string>

@@ -1,76 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="compathon.org.logan_android.activity.HomeActivity">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarHomeActivity"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin" />
-
-    </android.support.design.widget.AppBarLayout>
+    tools:context="compathon.org.logan_android.activity.HomeActivity"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_large">
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:layout_marginTop="@dimen/padding_largest"
+        android:gravity="center">
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="@dimen/button_width_large"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edtUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hintNameInRoom" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="@dimen/button_width_large"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_largest">
 
             <EditText
                 android:id="@+id/edtNumberRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:hint="@string/hintNumberRoom" />
+                android:hint="@string/hintNumberRoom"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"/>
 
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/btnJoinNow"
-            android:layout_width="@dimen/button_width_medium"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:text="@string/btnJoin"/>
+            android:layout_marginBottom="@dimen/padding_medium">
+
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hintNameInRoom"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+
         
     </LinearLayout>
-    
-    <Button
-        android:id="@+id/btnCreateRoom"
-        android:layout_width="@dimen/button_width_medium"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:text="@string/btnCreateRoom"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_marginBottom="@dimen/padding_medium"/>
 
-</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnJoinNow"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_button_join"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:text="@string/btnJoin"
+            android:layout_marginBottom="@dimen/padding_large"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipChooseHostRoom"
+            android:textColor="#80ffffff"
+            android:layout_marginBottom="@dimen/padding_large"/>
+
+        <Button
+            android:id="@+id/btnCreateRoom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_button_create_room"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:text="@string/btnCreateRoom"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

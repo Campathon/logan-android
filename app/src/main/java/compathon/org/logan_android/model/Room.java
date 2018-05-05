@@ -9,5 +9,6 @@ public class Room {
     public String _id;
     public int code;
     public String created;
+    public String status;
 
 }

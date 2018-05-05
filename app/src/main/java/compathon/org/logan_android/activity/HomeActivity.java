@@ -35,8 +35,9 @@ public class HomeActivity extends AppCompatActivity {
     @BindView(R.id.edtNumberRoom)
     EditText edtNumberRoom;
 
-    @BindView(R.id.toolbarHomeActivity)
-    Toolbar toolbarHomeActivity;
+    //@BindView(R.id.toolbarHomeActivity)
+    //Toolbar toolbarHomeActivity;
+
     @BindView(R.id.edtUsername)
     EditText edtUsername;
 
@@ -52,59 +53,54 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initView() {
 
-        setSupportActionBar(toolbarHomeActivity);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //setSupportActionBar(toolbarHomeActivity);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_white);
 
     }
 
     @OnClick({R.id.btnJoinNow, R.id.btnCreateRoom})
     public void onClick(View v) {
-        ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
+
         switch (v.getId()) {
             case R.id.btnJoinNow:
-
+                String username = edtUsername.getText().toString();
                 int numberRoom = MathUtils.parseInt(edtNumberRoom.getText().toString(), 0);
                 if (numberRoom == 0) {
                     DialogUtils.showDialog(this, getString(R.string.invalidNumberRoom));
-                    break;
-                }
-
-                String username = edtUsername.getText().toString();
-                if (!StringUtils.isNotBlank(username)) {
+                } else if (!StringUtils.isNotBlank(username)) {
                     DialogUtils.showDialog(this, getString(R.string.invalidUsername));
-                    break;
-                }
+                } else {
 
-                JSONObject params = new JSONObject();
-                try {
-                    params.put("name", username);
-                    params.put("room", numberRoom);
+                    JSONObject params = new JSONObject();
+                    try {
+                        params.put("name", username);
+                        params.put("room", numberRoom);
 
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-                StringEntity entity = new StringEntity(params.toString(), "UTF-8");
-
-                RequestService.post(this, ListAPI.JOIN_ROOM, entity, dialog, new RequestComplete() {
-                    @Override
-                    public void onComplete(boolean success, int status, String message, JsonElement data) {
-                        Log.e(TAG, "data: " + data);
-                        if (success) {
-                            Intent intentJoinNow = new Intent(HomeActivity.this, InRoomActivity.class);
-                            startActivity(intentJoinNow);
-                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
                     }
-                });
 
+                    StringEntity entity = new StringEntity(params.toString(), "UTF-8");
+                    ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
+                    RequestService.post(this, ListAPI.JOIN_ROOM, entity, dialog, new RequestComplete() {
+                        @Override
+                        public void onComplete(boolean success, int status, String message, JsonElement data) {
+                            Log.e(TAG, "data: " + data);
+                            if (success) {
+                                Intent intentJoinNow = new Intent(HomeActivity.this, InRoomActivity.class);
+                                startActivity(intentJoinNow);
+                            }
+                        }
+                    });
+                }
 
                 break;
             case R.id.btnCreateRoom:
+                ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
                 RequestService.post(this, ListAPI.CREATE_ROOM, new RequestParams(), dialog, new RequestComplete() {
                     @Override
                     public void onComplete(boolean success, int status, String message, JsonElement data) {
-                        Log.e(TAG, data.getAsJsonObject().toString());
                         if (success) {
                             Room room = new Gson().fromJson(data, Room.class);
 

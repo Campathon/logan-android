@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,9 +86,13 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(boolean success, int status, String message, JsonElement data) {
                             if (success) {
-                                Intent intentJoinNow = new Intent(HomeActivity.this, InRoomActivity.class);
+                                Room room = new Gson().fromJson(data, Room.class);
+
+                                Intent intentJoinNow = new Intent(HomeActivity.this, WaitingRoomActivity.class);
                                 intentJoinNow.putExtra(Constants.kRoomCode, numberRoom);
                                 intentJoinNow.putExtra(Constants.kHostRoom, false);
+                                String jsonUsers = new Gson().toJson(room.users);
+                                intentJoinNow.putExtra(Constants.kUserList, jsonUsers);
                                 startActivity(intentJoinNow);
                             }
                         }
@@ -105,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
                         if (success) {
                             Room room = new Gson().fromJson(data, Room.class);
 
-                            Intent intentCreateRoom = new Intent(HomeActivity.this, InRoomActivity.class);
+                            Intent intentCreateRoom = new Intent(HomeActivity.this, WaitingRoomActivity.class);
                             intentCreateRoom.putExtra(Constants.kRoomId, room._id);
                             intentCreateRoom.putExtra(Constants.kRoomCode, room.code);
                             intentCreateRoom.putExtra(Constants.kHostRoom, true);

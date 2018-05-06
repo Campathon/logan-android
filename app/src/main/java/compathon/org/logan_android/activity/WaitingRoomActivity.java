@@ -1,5 +1,6 @@
 package compathon.org.logan_android.activity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +16,11 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.StringEntity;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -47,9 +49,9 @@ import io.socket.emitter.Emitter;
  * Created by Andy on 5/5/2018.
  */
 
-public class InRoomActivity extends AppCompatActivity{
+public class WaitingRoomActivity extends AppCompatActivity{
 
-    private static final String TAG = "InRoomActivity";
+    private static final String TAG = "WaitingRoomActivity";
     private String roomId;
     private int roomCode;
 
@@ -88,8 +90,8 @@ public class InRoomActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in_room);
-        ButterKnife.bind(InRoomActivity.this);
+        setContentView(R.layout.activity_waiting_room);
+        ButterKnife.bind(WaitingRoomActivity.this);
         userList = new ArrayList<>();
         cardItemList = new ArrayList<>();
         initViews();
@@ -105,7 +107,7 @@ public class InRoomActivity extends AppCompatActivity{
                 layoutStartView.setVisibility(View.GONE);
             }
 
-            socket.on("newUser", new Emitter.Listener() {
+            socket.on("usersChanged", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
                     Log.e(TAG, StringUtils.join(args));
@@ -125,6 +127,13 @@ public class InRoomActivity extends AppCompatActivity{
                 }
             });
 
+            socket.on("roomClosed", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    Log.e(TAG, StringUtils.join(args));
+                }
+            });
+
             socket.connect();
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -140,7 +149,11 @@ public class InRoomActivity extends AppCompatActivity{
                 DialogUtils.showOkDialog(this, getString(R.string.confirmExit), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        if (isHost) {
+                            closeRoom();
+                        } else {
+                            leaveRoom();
+                        }
                     }
                 });
                 break;
@@ -170,7 +183,14 @@ public class InRoomActivity extends AppCompatActivity{
 
         tvRoomNumber.setText("Phòng " + roomCode);
         isHost = getIntent().getBooleanExtra(Constants.kHostRoom, false);
-
+        String jsonUsers = getIntent().getStringExtra(Constants.kUserList);
+        if (StringUtils.isNotBlank(jsonUsers)) {
+            Log.e(TAG, jsonUsers);
+            List<User> arrUsers = new Gson().fromJson(jsonUsers, new TypeToken<List<User>>(){}.getType());
+            if (arrUsers != null) {
+                userList.addAll(arrUsers);
+            }
+        }
         //Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         //image.eraseColor(android.graphics.Color.GREEN);
         //toolbarInRoomActivity.setBackground(Draimage);
@@ -191,12 +211,68 @@ public class InRoomActivity extends AppCompatActivity{
         lvGridCard.addItemDecoration(new GridSpacingItemDecoration(3, (int) 0, true));
         cardGridAdapter = new CardGridAdapter(this, cardItemList);
         lvGridCard.setAdapter(cardGridAdapter);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         socket.disconnect();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        //super.onBackPressed();
+        DialogUtils.showOkDialog(this, getString(R.string.confirmExit), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (isHost) {
+                    closeRoom();
+                } else {
+                    leaveRoom();
+                }
+            }
+        });
+    }
+
+    public void closeRoom() {
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("room", roomCode);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
+        StringEntity entity = new StringEntity(params.toString(), "UTF-8");
+        RequestService.post(this, ListAPI.CLOSE_ROOM, entity, dialog, new RequestComplete() {
+            @Override
+            public void onComplete(boolean success, int status, String message, JsonElement data) {
+                finish();
+            }
+        });
+
+    }
+
+    public void leaveRoom() {
+
+        JSONObject params = new JSONObject();
+        try {
+            params.put("room", roomCode);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
+        StringEntity entity = new StringEntity(params.toString(), "UTF-8");
+        RequestService.post(this, ListAPI.LEAVE_ROOM, entity, dialog, new RequestComplete() {
+            @Override
+            public void onComplete(boolean success, int status, String message, JsonElement data) {
+                finish();
+            }
+        });
     }
 
     @Override

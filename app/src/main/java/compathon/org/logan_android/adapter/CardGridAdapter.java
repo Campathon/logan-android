@@ -53,7 +53,7 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialogNumber(position);
+                //showDialogNumber(position);
             }
         });
 
@@ -84,72 +84,72 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
         return cardItemList == null ? 0 : cardItemList.size();
     }
 
-    private void showDialogNumber(final int position) {
-
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_choose_quantity);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setLayout(MathUtils.ScreenSize(context)[0] * 7 / 8, WindowManager.LayoutParams.WRAP_CONTENT);
-
-
-        dialog.findViewById(R.id.tvR0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardItemList.get(position).quantity = 0;
-                dialog.dismiss();
-                notifyDataSetChanged();
-            }
-        });
-
-        dialog.findViewById(R.id.tvR1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardItemList.get(position).quantity = 1;
-                dialog.dismiss();
-                notifyDataSetChanged();
-            }
-        });
-
-        dialog.findViewById(R.id.tvR2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardItemList.get(position).quantity = 2;
-                dialog.dismiss();
-                notifyDataSetChanged();
-            }
-        });
-
-        dialog.findViewById(R.id.tvR3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardItemList.get(position).quantity = 3;
-                dialog.dismiss();
-                notifyDataSetChanged();
-            }
-        });
-
-        dialog.findViewById(R.id.tvR4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardItemList.get(position).quantity = 4;
-                dialog.dismiss();
-                notifyDataSetChanged();
-            }
-        });
-
-        dialog.findViewById(R.id.tvR5).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardItemList.get(position).quantity = 5;
-                dialog.dismiss();
-                notifyDataSetChanged();
-            }
-        });
-
-        dialog.show();
-    }
+//    private void showDialogNumber(final int position) {
+//
+//        final Dialog dialog = new Dialog(context);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.dialog_choose_quantity);
+//        dialog.setCanceledOnTouchOutside(true);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialog.getWindow().setLayout(MathUtils.ScreenSize(context)[0] * 7 / 8, WindowManager.LayoutParams.WRAP_CONTENT);
+//
+//
+//        dialog.findViewById(R.id.tvR0).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                cardItemList.get(position).quantity = 0;
+//                dialog.dismiss();
+//                notifyDataSetChanged();
+//            }
+//        });
+//
+//        dialog.findViewById(R.id.tvR1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                cardItemList.get(position).quantity = 1;
+//                dialog.dismiss();
+//                notifyDataSetChanged();
+//            }
+//        });
+//
+//        dialog.findViewById(R.id.tvR2).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                cardItemList.get(position).quantity = 2;
+//                dialog.dismiss();
+//                notifyDataSetChanged();
+//            }
+//        });
+//
+//        dialog.findViewById(R.id.tvR3).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                cardItemList.get(position).quantity = 3;
+//                dialog.dismiss();
+//                notifyDataSetChanged();
+//            }
+//        });
+//
+//        dialog.findViewById(R.id.tvR4).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                cardItemList.get(position).quantity = 4;
+//                dialog.dismiss();
+//                notifyDataSetChanged();
+//            }
+//        });
+//
+//        dialog.findViewById(R.id.tvR5).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                cardItemList.get(position).quantity = 5;
+//                dialog.dismiss();
+//                notifyDataSetChanged();
+//            }
+//        });
+//
+//        dialog.show();
+//    }
 
     class CardItemHolder extends RecyclerView.ViewHolder {
 

@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorBackground">#2e3a52</color>
+    <color name="colorBackgroundBlur">#802e3a52</color>
     <color name="colorBtnJoin">#58a7e2</color>
     <color name="colorBtnCreateRoom">#6fc215</color>
 </resources>

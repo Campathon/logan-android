@@ -11,4 +11,5 @@ public class Constants {
     public static final String kRoomId = "roomId";
     public static final String kRoomCode = "roomCode";
     public static final String kHostRoom = "hostRoom";
+    public static final String kUserList = "userList";
 }

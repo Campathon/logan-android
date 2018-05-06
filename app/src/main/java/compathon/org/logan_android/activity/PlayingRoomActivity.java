@@ -15,7 +15,7 @@ public class PlayingRoomActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_playing_room);
         ButterKnife.bind(PlayingRoomActivity.this);
         initView();
     }

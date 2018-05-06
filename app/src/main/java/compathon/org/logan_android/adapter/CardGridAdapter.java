@@ -116,6 +116,10 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
         }
     }
 
+    public List<CardItem> getCardItemList() {
+        return cardItemList;
+    }
+
 //    private void showDialogNumber(final int position) {
 //
 //        final Dialog dialog = new Dialog(context);

@@ -2,6 +2,7 @@ package compathon.org.logan_android.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -22,11 +23,14 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,11 +58,6 @@ import io.socket.emitter.Emitter;
 public class WaitingRoomActivity extends AppCompatActivity {
 
     private static final String TAG = "WaitingRoomActivity";
-    private static final int START_MODE = 1;
-    private static final int READY_MODE = 2;
-
-    private int startMode = READY_MODE;
-
     private String roomId;
     private int roomCode;
 
@@ -259,14 +258,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (startMode) {
-                    case READY_MODE:
-                        readyForPlayingGame();
-                        break;
-                    case START_MODE:
-                        gotoPlayingRoom();
-                        break;
-                }
+                readyForPlayingGame();
             }
         });
     }
@@ -313,11 +305,38 @@ public class WaitingRoomActivity extends AppCompatActivity {
     }
 
     private void readyForPlayingGame() {
-        startMode = START_MODE;
-        btnStart.setText(getString(R.string.btnStart));
-    }
-    private void gotoPlayingRoom() {
-        Toast.makeText(this, "goto playing room", Toast.LENGTH_SHORT).show();
+        JSONObject params = new JSONObject();
+        try {
+            params.put("room", roomCode);
+            JSONArray cards = new JSONArray();
+            List<CardItem> cardItemList = cardGridAdapter.getCardItemList();
+            for (CardItem item : cardItemList) {
+                if (item.quantity > 0) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("id", item._id);
+                    obj.put("total", item.quantity);
+
+                    cards.put(obj);
+                }
+            }
+            params.putOpt("cards", cards);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
+        StringEntity entity = new StringEntity(params.toString(), "UTF-8");
+        RequestService.post(this, ListAPI.START_GAME, entity, dialog, new RequestComplete() {
+            @Override
+            public void onComplete(boolean success, int status, String message, JsonElement data) {
+                Toast.makeText(getBaseContext(), "goto playing room", Toast.LENGTH_SHORT).show();
+
+                Intent mIntent = new Intent();
+                mIntent.setClass(getBaseContext(), PlayingRoomActivity.class);
+                startActivity(mIntent);
+            }
+        });
+
     }
 
     public void leaveRoom() {

@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
 
         switch (v.getId()) {
             case R.id.btnJoinNow:
-                String username = edtUsername.getText().toString();
+                final String username = edtUsername.getText().toString();
                 final int numberRoom = MathUtils.parseInt(edtNumberRoom.getText().toString(), 0);
                 if (numberRoom == 0) {
                     DialogUtils.showDialog(this, getString(R.string.invalidNumberRoom));
@@ -93,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
                                 intentJoinNow.putExtra(Constants.kHostRoom, false);
                                 String jsonUsers = new Gson().toJson(room.users);
                                 intentJoinNow.putExtra(Constants.kUserList, jsonUsers);
+                                intentJoinNow.putExtra(Constants.kUsername, username);
                                 startActivity(intentJoinNow);
                             }
                         }

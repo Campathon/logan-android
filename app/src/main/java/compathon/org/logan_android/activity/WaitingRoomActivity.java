@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
@@ -86,6 +87,7 @@ public class WaitingRoomActivity extends AppCompatActivity{
 
     private List<User> userList;
     private List<CardItem> cardItemList;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +107,11 @@ public class WaitingRoomActivity extends AppCompatActivity{
                 layoutStartView.setVisibility(View.VISIBLE);
             } else {
                 layoutStartView.setVisibility(View.GONE);
+                userList.add(new User(name));
+                tvUserJoinCount.setText(userList.size() + " người tham gia");
             }
 
-            socket.on("usersChanged", new Emitter.Listener() {
+            socket.on("newUser", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
                     Log.e(TAG, StringUtils.join(args));
@@ -130,7 +134,50 @@ public class WaitingRoomActivity extends AppCompatActivity{
             socket.on("roomClosed", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
-                    Log.e(TAG, StringUtils.join(args));
+                    if (!isHost) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                DialogUtils.showOkDialogForce(WaitingRoomActivity.this, getString(R.string.closeRoom), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+
+            socket.on("usersChanged", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    Log.e(TAG, "usersChanged: " + StringUtils.join(args));
+                    if (args.length >= 1) {
+                        JsonArray jsonArray = new Gson().fromJson(args[0].toString(), JsonArray.class);
+
+                        if (jsonArray != null && jsonArray.size() > 0) {
+                            List<User> results = new ArrayList<>();
+                            for (int i = 0; i < jsonArray.size(); i++) {
+                                User user = new Gson().fromJson(jsonArray.get(i), User.class);
+                                if (user != null) {
+                                    if ("active".equals(user.status)) {
+                                        results.add(user);
+                                    }
+                                }
+                            }
+                            userList.clear();
+                            userList.addAll(results);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    userRoomAdapter.notifyDataSetChanged();
+                                    tvUserJoinCount.setText(userList.size() + " người tham gia");
+                                }
+                            });
+                        }
+                    }
                 }
             });
 
@@ -183,17 +230,7 @@ public class WaitingRoomActivity extends AppCompatActivity{
 
         tvRoomNumber.setText("Phòng " + roomCode);
         isHost = getIntent().getBooleanExtra(Constants.kHostRoom, false);
-        String jsonUsers = getIntent().getStringExtra(Constants.kUserList);
-        if (StringUtils.isNotBlank(jsonUsers)) {
-            Log.e(TAG, jsonUsers);
-            List<User> arrUsers = new Gson().fromJson(jsonUsers, new TypeToken<List<User>>(){}.getType());
-            if (arrUsers != null) {
-                userList.addAll(arrUsers);
-            }
-        }
-        //Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        //image.eraseColor(android.graphics.Color.GREEN);
-        //toolbarInRoomActivity.setBackground(Draimage);
+        name = getIntent().getStringExtra(Constants.kUsername);
 
         layoutManagerUser = new LinearLayoutManager(this);
         layoutManagerUser.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -261,6 +298,7 @@ public class WaitingRoomActivity extends AppCompatActivity{
         JSONObject params = new JSONObject();
         try {
             params.put("room", roomCode);
+            params.put("name", name);
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

@@ -6,15 +6,24 @@ package compathon.org.logan_android.model;
 
 public class User {
 
-    public int id;
+    public String _id;
     public String name;
     public String status;
     public String card;
 
     public User() {}
 
-    public User(int id, String name) {
-        this.id = id;
+    public User(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + _id +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", card='" + card + '\'' +
+                '}';
     }
 }

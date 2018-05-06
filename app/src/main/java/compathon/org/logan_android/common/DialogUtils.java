@@ -27,6 +27,14 @@ public class DialogUtils {
         dialog.show();
     }
 
+    public static void showOkDialogForce(Context context, String msg, DialogInterface.OnClickListener clickListener) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setMessage(msg);
+        dialog.setCancelable(false);
+        dialog.setPositiveButton("OK", clickListener);
+        dialog.show();
+    }
+
     public static boolean checkNetworkWithAlert(final Context context) {
         if (!checkNetwork(context)) {
             showOkDialog(context, context.getString(R.string.noInternetConnection), new DialogInterface.OnClickListener() {

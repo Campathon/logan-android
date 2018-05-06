@@ -23,4 +23,5 @@
     <string name="btnStart">Bắt đầu</string>
     <string name="btnExit">Thoát</string>
     <string name="confirmExit">Bạn có muốn thoát khỏi phòng này?</string>
+    <string name="closeRoom">Chủ phòng đã thoát bạn hãy ra chọn phòng mới!</string>
 </resources>

@@ -13,7 +13,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -47,15 +49,18 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
 
     @Override
     public void onBindViewHolder(@NonNull final CardGridAdapter.CardItemHolder holder, final int position) {
-        CardItem cardItem = cardItemList.get(position);
+        final CardItem cardItem = cardItemList.get(position);
 
         holder.tvName.setText(cardItem.name);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //showDialogNumber(position);
+                Toast.makeText(context, cardItem.name, Toast.LENGTH_SHORT).show();
             }
         });
+
+        updateQuantity(cardItem, holder);
 
 //        if (cardItemList.get(position).quantity != 0) {
 //            holder.tvQuantity.setText(String.valueOf(cardItem.quantity));
@@ -77,11 +82,38 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
                 holder.imvThumbnail.requestLayout();
             }
         });
+
+        holder.tvDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cardItem.quantity--;
+                if (cardItem.quantity < 0) cardItem.quantity = 0;
+                updateQuantity(cardItem, holder);
+                cardItemList.get(position).quantity = cardItem.quantity;
+            }
+        });
+        holder.tvIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cardItem.quantity++;
+                updateQuantity(cardItem, holder);
+                cardItemList.get(position).quantity = cardItem.quantity;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return cardItemList == null ? 0 : cardItemList.size();
+    }
+
+    private void updateQuantity(CardItem cardItem, CardItemHolder holder) {
+        if (cardItem.quantity > 0) {
+            holder.tvTotal.setText(String.valueOf(cardItem.quantity));
+            holder.tvTotal.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvTotal.setVisibility(View.INVISIBLE);
+        }
     }
 
 //    private void showDialogNumber(final int position) {
@@ -159,6 +191,12 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
         TextView tvName;
         //@BindView(R.id.tvQuantity)
         //TextView tvQuantity;
+        @BindView(R.id.tv_total)
+        TextView tvTotal;
+        @BindView(R.id.tv_decrease)
+        TextView tvDecrease;
+        @BindView(R.id.tv_increase)
+        TextView tvIncrease;
         @BindView(R.id.imvThumbnail)
         ImageView imvThumbnail;
         //@BindView(R.id.tvAlias)

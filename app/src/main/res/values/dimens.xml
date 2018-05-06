@@ -12,4 +12,5 @@
     <dimen name="button_width_medium">200dp</dimen>
     <dimen name="button_width_large">300dp</dimen>
     <dimen name="button_height_medium">40dp</dimen>
+    <dimen name="card_size">120dp</dimen>
 </resources>

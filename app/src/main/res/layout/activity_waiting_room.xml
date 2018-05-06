@@ -91,7 +91,7 @@
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             android:layout_gravity="bottom"
-            android:text="@string/btnStart" />
+            android:text="@string/btnReady" />
     </LinearLayout>
 
 

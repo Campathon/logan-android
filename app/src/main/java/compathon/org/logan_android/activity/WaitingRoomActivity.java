@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -50,9 +51,14 @@ import io.socket.emitter.Emitter;
  * Created by Andy on 5/5/2018.
  */
 
-public class WaitingRoomActivity extends AppCompatActivity{
+public class WaitingRoomActivity extends AppCompatActivity {
 
     private static final String TAG = "WaitingRoomActivity";
+    private static final int START_MODE = 1;
+    private static final int READY_MODE = 2;
+
+    private int startMode = READY_MODE;
+
     private String roomId;
     private int roomCode;
 
@@ -215,7 +221,8 @@ public class WaitingRoomActivity extends AppCompatActivity{
             @Override
             public void onComplete(boolean success, int status, String message, JsonElement data) {
                 if (success) {
-                    List<CardItem> results = new Gson().fromJson(data, new TypeToken<List<CardItem>>(){}.getType());
+                    List<CardItem> results = new Gson().fromJson(data, new TypeToken<List<CardItem>>() {
+                    }.getType());
                     cardItemList.addAll(results);
                     cardGridAdapter.notifyDataSetChanged();
                 }
@@ -249,6 +256,19 @@ public class WaitingRoomActivity extends AppCompatActivity{
         cardGridAdapter = new CardGridAdapter(this, cardItemList);
         lvGridCard.setAdapter(cardGridAdapter);
 
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (startMode) {
+                    case READY_MODE:
+                        readyForPlayingGame();
+                        break;
+                    case START_MODE:
+                        gotoPlayingRoom();
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -258,8 +278,7 @@ public class WaitingRoomActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         //super.onBackPressed();
         DialogUtils.showOkDialog(this, getString(R.string.confirmExit), new DialogInterface.OnClickListener() {
             @Override
@@ -291,6 +310,14 @@ public class WaitingRoomActivity extends AppCompatActivity{
             }
         });
 
+    }
+
+    private void readyForPlayingGame() {
+        startMode = START_MODE;
+        btnStart.setText(getString(R.string.btnStart));
+    }
+    private void gotoPlayingRoom() {
+        Toast.makeText(this, "goto playing room", Toast.LENGTH_SHORT).show();
     }
 
     public void leaveRoom() {

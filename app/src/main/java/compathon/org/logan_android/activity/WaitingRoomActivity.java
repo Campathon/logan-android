@@ -219,11 +219,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
                     List<User> userList = new Gson().fromJson(StringUtils.join(args), new TypeToken<List<User>>(){}.getType());
                     for (User user: userList) {
                         if (userId.equals(user._id)) {
-                            Fragment fragment = new PlayerFragment();
-                            FragmentManager fm = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                            fragmentTransaction.replace(R.id.playerFragment, fragment);
-                            fragmentTransaction.commit();
+
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -242,6 +238,12 @@ public class WaitingRoomActivity extends AppCompatActivity {
                             String description = treeMap.containsKey("description") ? treeMap.get("description").toString() : "";
 
                             cardItem = new CardItem(name, image, description);
+
+                            Fragment fragment = PlayerFragment.newInstance(cardItem);
+                            FragmentManager fm = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                            fragmentTransaction.replace(R.id.playerFragment, fragment);
+                            fragmentTransaction.commit();
                         }
                     }
                 }

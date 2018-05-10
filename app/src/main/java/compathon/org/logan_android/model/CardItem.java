@@ -21,9 +21,9 @@ public class CardItem {
     }
 
     public CardItem(String name, String image, String description) {
-        this.description = description;
-        this.image = name;
+        this.name = name;
         this.image = image;
+        this.description = description;
     }
 
 }

@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/logan-android.iml" filepath="$PROJECT_DIR$/logan-android.iml" />
+      <module fileurl="file://C:\Workspace\06_logan_project\logan_android\logan-android.iml" filepath="C:\Workspace\06_logan_project\logan_android\logan-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/logan_android.iml" filepath="$PROJECT_DIR$/logan_android.iml" />
     </modules>
   </component>
 </project>

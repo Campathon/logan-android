@@ -2,8 +2,10 @@ package compathon.org.logan_android.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,9 +30,7 @@ import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +42,7 @@ import compathon.org.logan_android.callback.RequestComplete;
 import compathon.org.logan_android.common.Constants;
 import compathon.org.logan_android.common.DialogUtils;
 import compathon.org.logan_android.common.ListAPI;
+import compathon.org.logan_android.fragment.HostFragment;
 import compathon.org.logan_android.model.CardItem;
 import compathon.org.logan_android.model.User;
 import compathon.org.logan_android.service.RequestService;
@@ -88,6 +89,9 @@ public class WaitingRoomActivity extends AppCompatActivity {
 
     @BindView(R.id.tvUserJoinCount)
     TextView tvUserJoinCount;
+
+    @BindView(R.id.layoutContent)
+    LinearLayout layoutContent;
 
 
     private List<User> userList;
@@ -331,9 +335,17 @@ public class WaitingRoomActivity extends AppCompatActivity {
             public void onComplete(boolean success, int status, String message, JsonElement data) {
                 Toast.makeText(getBaseContext(), "goto playing room", Toast.LENGTH_SHORT).show();
 
-                Intent mIntent = new Intent();
-                mIntent.setClass(getBaseContext(), PlayingRoomActivity.class);
-                startActivity(mIntent);
+//                Intent mIntent = new Intent();
+//                mIntent.setClass(getBaseContext(), PlayingRoomActivity.class);
+//                startActivity(mIntent);
+                Fragment fragment = new HostFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.layoutContent, fragment);
+                fragmentTransaction.commit();
+
+                layoutContent.setVisibility(View.GONE);
+                layoutStartView.setVisibility(View.GONE);
             }
         });
 

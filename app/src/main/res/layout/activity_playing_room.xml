@@ -44,13 +44,13 @@
             </LinearLayout>
 
             <TextView
+                android:text="@string/btnExit"
+                android:textColor="@android:color/holo_blue_dark"
                 android:id="@+id/tvExit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:text="@string/btnExit"
-                android:textColor="@android:color/holo_blue_dark" />
+                android:layout_gravity="right"/>
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

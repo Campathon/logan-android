@@ -60,20 +60,39 @@
             android:layout_marginBottom="@dimen/padding_small"/>
     </LinearLayout>
 
-
-    <LinearLayout
-        android:id="@+id/layoutContent"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lvGridCard"
+        <fragment
+            android:name="compathon.org.logan_android.fragment.PlayerFragment"
+            android:id="@+id/playerFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_small"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+        <fragment
+            android:name="compathon.org.logan_android.fragment.HostFragment"
+            android:id="@+id/hostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/layoutContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lvGridCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_small"/>
+        </LinearLayout>
+
+    </FrameLayout>
 
 
     <LinearLayout

@@ -20,4 +20,10 @@ public class CardItem {
         this.quantity = 0;
     }
 
+    public CardItem(String name, String image, String description) {
+        this.description = description;
+        this.image = name;
+        this.image = image;
+    }
+
 }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +44,7 @@ import compathon.org.logan_android.common.Constants;
 import compathon.org.logan_android.common.DialogUtils;
 import compathon.org.logan_android.common.ListAPI;
 import compathon.org.logan_android.fragment.HostFragment;
+import compathon.org.logan_android.fragment.PlayerFragment;
 import compathon.org.logan_android.model.CardItem;
 import compathon.org.logan_android.model.User;
 import compathon.org.logan_android.service.RequestService;
@@ -93,10 +95,17 @@ public class WaitingRoomActivity extends AppCompatActivity {
     @BindView(R.id.layoutContent)
     LinearLayout layoutContent;
 
+    @BindView(R.id.playerFragment)
+    View playerFragment;
+
+    @BindView(R.id.hostFragment)
+    View hostFragment;
 
     private List<User> userList;
     private List<CardItem> cardItemList;
     private String name;
+    private String userId;
+    public CardItem cardItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +114,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
         ButterKnife.bind(WaitingRoomActivity.this);
         userList = new ArrayList<>();
         cardItemList = new ArrayList<>();
+
         initViews();
 
         try {
@@ -190,12 +200,54 @@ public class WaitingRoomActivity extends AppCompatActivity {
                 }
             });
 
+            onStartGame();
+
             socket.connect();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
         getCardList();
+    }
+
+    private void onStartGame() {
+            socket.on("startGame", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Log.e(TAG, "startGame: " + StringUtils.join(args));
+                if (!isHost) {
+                    List<User> userList = new Gson().fromJson(StringUtils.join(args), new TypeToken<List<User>>(){}.getType());
+                    for (User user: userList) {
+                        if (userId.equals(user._id)) {
+                            Fragment fragment = new PlayerFragment();
+                            FragmentManager fm = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                            fragmentTransaction.replace(R.id.playerFragment, fragment);
+                            fragmentTransaction.commit();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    playerFragment.setVisibility(View.VISIBLE);
+                                    layoutContent.setVisibility(View.GONE);
+                                    layoutStartView.setVisibility(View.GONE);
+                                }
+                            });
+
+
+                            LinkedTreeMap treeMap = (LinkedTreeMap) user.card;
+                            //CardItem cardItem = new Gson().fromJson(treeMap.toString(), CardItem.class);
+                            String name = treeMap.containsKey("name") ? treeMap.get("name").toString() : "";
+                            String image = treeMap.containsKey("image") ? treeMap.get("image").toString() : "";
+                            String description = treeMap.containsKey("description") ? treeMap.get("description").toString() : "";
+
+                            cardItem = new CardItem(name, image, description);
+                        }
+                    }
+                }
+
+            }
+        });
     }
 
     @OnClick({R.id.tvExit})
@@ -241,6 +293,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
         tvRoomNumber.setText("Phòng " + roomCode);
         isHost = getIntent().getBooleanExtra(Constants.kHostRoom, false);
         name = getIntent().getStringExtra(Constants.kUsername);
+        userId = getIntent().getStringExtra(Constants.kUserId);
 
         layoutManagerUser = new LinearLayoutManager(this);
         layoutManagerUser.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -265,6 +318,9 @@ public class WaitingRoomActivity extends AppCompatActivity {
                 readyForPlayingGame();
             }
         });
+        playerFragment.setVisibility(View.GONE);
+        hostFragment.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -341,9 +397,10 @@ public class WaitingRoomActivity extends AppCompatActivity {
                 Fragment fragment = new HostFragment();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.layoutContent, fragment);
+                fragmentTransaction.replace(R.id.hostFragment, fragment);
                 fragmentTransaction.commit();
 
+                hostFragment.setVisibility(View.VISIBLE);
                 layoutContent.setVisibility(View.GONE);
                 layoutStartView.setVisibility(View.GONE);
             }

@@ -27,6 +27,7 @@ import compathon.org.logan_android.common.DialogUtils;
 import compathon.org.logan_android.common.ListAPI;
 import compathon.org.logan_android.common.MathUtils;
 import compathon.org.logan_android.model.Room;
+import compathon.org.logan_android.model.User;
 import compathon.org.logan_android.service.RequestService;
 
 public class HomeActivity extends AppCompatActivity {
@@ -86,13 +87,13 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(boolean success, int status, String message, JsonElement data) {
                             if (success) {
-                                Room room = new Gson().fromJson(data, Room.class);
+                                User user = new Gson().fromJson(data, User.class);
 
                                 Intent intentJoinNow = new Intent(HomeActivity.this, WaitingRoomActivity.class);
                                 intentJoinNow.putExtra(Constants.kRoomCode, numberRoom);
                                 intentJoinNow.putExtra(Constants.kHostRoom, false);
-                                String jsonUsers = new Gson().toJson(room.users);
-                                intentJoinNow.putExtra(Constants.kUserList, jsonUsers);
+                                //String jsonUsers = new Gson().toJson(room.users);
+                                intentJoinNow.putExtra(Constants.kUserId, user._id);
                                 intentJoinNow.putExtra(Constants.kUsername, username);
                                 startActivity(intentJoinNow);
                             }

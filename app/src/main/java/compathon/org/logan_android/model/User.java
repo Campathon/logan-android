@@ -9,7 +9,7 @@ public class User {
     public String _id;
     public String name;
     public String status;
-    public String card;
+    public Object card;
 
     public User() {}
 

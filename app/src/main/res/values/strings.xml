@@ -24,5 +24,6 @@
     <string name="btnReady">Sẵn sàng</string>
     <string name="btnExit">Thoát</string>
     <string name="confirmExit">Bạn có muốn thoát khỏi phòng này?</string>
+    <string name="verifyNumberCard">Bạn cần chọn ít nhất 2 thẻ để chơi</string>
     <string name="closeRoom">Chủ phòng đã thoát bạn hãy ra chọn phòng mới!</string>
 </resources>

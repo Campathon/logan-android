@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class PlayingUserItem {
 
+    private boolean died;
     private String name;
     private String shortName;
     private String status;
@@ -56,5 +57,13 @@ public class PlayingUserItem {
 
     public void setCardItem(CardItem cardItem) {
         this.cardItem = cardItem;
+    }
+
+    public boolean isDied() {
+        return died;
+    }
+
+    public void setDied(boolean died) {
+        this.died = died;
     }
 }

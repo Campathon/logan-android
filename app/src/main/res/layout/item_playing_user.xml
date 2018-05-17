@@ -2,13 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_user_height">
+        android:layout_height="@dimen/item_user_height"
+        android:id="@+id/v_item_user_container">
 
         <View
             android:layout_width="match_parent"

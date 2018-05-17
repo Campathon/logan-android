@@ -60,6 +60,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.android.support:support-compat:$supportVersion'
+    compile 'com.daimajia.easing:library:2.0@aar'
+    compile 'com.daimajia.androidanimations:library:2.3@aar'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

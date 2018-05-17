@@ -373,6 +373,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
             params.put("room", roomCode);
             JSONArray cards = new JSONArray();
             List<CardItem> cardItemList = cardGridAdapter.getCardItemList();
+            int numberOfCard = 0;
             for (CardItem item : cardItemList) {
                 if (item.quantity > 0) {
                     JSONObject obj = new JSONObject();
@@ -380,7 +381,12 @@ public class WaitingRoomActivity extends AppCompatActivity {
                     obj.put("total", item.quantity);
 
                     cards.put(obj);
+                    numberOfCard ++;
                 }
+            }
+            if (numberOfCard < 2) {
+                DialogUtils.showOkDialog(this, getString(R.string.verifyNumberCard), null);
+                return;
             }
             params.putOpt("cards", cards);
         } catch (Exception e) {
@@ -407,7 +413,6 @@ public class WaitingRoomActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("json_users", jsonUsers);
                     fragment.setArguments(bundle);
-//                    fragment.initViews(bundle);
 
                     fragmentTransaction.replace(R.id.hostFragment, fragment);
                     fragmentTransaction.commit();
@@ -419,22 +424,6 @@ public class WaitingRoomActivity extends AppCompatActivity {
                             layoutStartView.setVisibility(View.GONE);
                         }
                     });
-
-//                    String jsonUsers = jsonData.getString("users");
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("json_users", jsonUsers);
-//                    Fragment fragment = new HostFragment();
-//                    fragment.setArguments(bundle);
-//                    FragmentManager fm = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//                    fragmentTransaction.replace(R.id.hostFragment, fragment);
-//                    fragmentTransaction.commit();
-//                    Log.i(TAG, data.toString());
-//
-//                    ((HostFragment) fragment).initViews(bundle);
-
-//                    layoutContent.setVisibility(View.GONE);
-//                    layoutStartView.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

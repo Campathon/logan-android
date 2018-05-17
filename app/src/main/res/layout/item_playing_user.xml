@@ -2,22 +2,20 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    android:padding="@dimen/padding_small">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_user_height"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_large"
         android:id="@+id/v_item_user_container">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="7dp"
             android:layout_marginEnd="@dimen/item_user_height_half"
             android:layout_marginStart="@dimen/item_user_height_half"
-            android:layout_marginTop="7dp"
             android:background="@android:color/white" />
 
         <ImageView
@@ -40,7 +38,7 @@
             android:id="@+id/tv_user_short_name"
             android:layout_width="@dimen/item_user_height"
             android:layout_height="@dimen/item_user_height"
-            android:padding="12dp"
+            android:padding="@dimen/padding_smallest"
             />
             <!--android:layout_alignEnd="@id/iv_bg_start"-->
             <!--android:layout_margin="8dp"-->
@@ -55,9 +53,8 @@
             android:layout_width="@dimen/item_user_height"
             android:layout_height="@dimen/item_user_height"
             android:layout_alignStart="@id/iv_bg_end"
-            android:layout_margin="8dp"
             android:background="@drawable/bg_user_name_gray"
-            android:padding="8dp"
+            android:padding="@dimen/padding_smallest"
             android:src="@mipmap/ic_launcher" />
 
 
@@ -65,19 +62,21 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_user_height"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="@dimen/item_user_height_half"
-            android:layout_marginStart="@dimen/item_user_height_half"
+            android:layout_marginEnd="@dimen/item_user_height"
+            android:layout_marginStart="@dimen/item_user_height"
             android:layout_marginTop="@dimen/item_padding"
             android:orientation="vertical"
-            android:paddingEnd="@dimen/item_user_height_half"
-            android:paddingStart="@dimen/item_user_height_half">
+            android:paddingStart="@dimen/padding_smallest"
+
+            >
 
             <TextView
                 android:id="@+id/tv_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/item_padding"
+                android:layout_marginTop="@dimen/padding_smallest"
                 android:text="Quy Dz"
+                android:maxLines="1"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 

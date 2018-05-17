@@ -59,7 +59,6 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
 //            layout.setMarginEnd(240);
 //        }
 
-//        holder.tvUserShorName.setText(playingUserItem.getShortName());
         holder.tvUserName.setText(playingUserItem.getName());
         holder.tvUserRole.setText(cardItem.name);
         Picasso.with(context).load(cardItem.image)
@@ -72,7 +71,8 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
                 .buildRound(String.valueOf(playingUserItem.getShortName()),color);
         holder.tvUserShorName.setImageDrawable(drawable);
 
-        holder.ivCard.setOnClickListener(new View.OnClickListener() {
+//        holder.ivCard.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 YoYo.with(Techniques.FlipInX)

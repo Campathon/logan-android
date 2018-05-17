@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="padding_tiny">2dp</dimen>
     <dimen name="padding_smallest">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
@@ -13,8 +14,8 @@
     <dimen name="button_width_large">300dp</dimen>
     <dimen name="button_height_medium">40dp</dimen>
     <dimen name="card_size">120dp</dimen>
-    <dimen name="item_user_height">80dp</dimen>
-    <dimen name="item_user_height_half">40dp</dimen>
+    <dimen name="item_user_height">72dp</dimen>
+    <dimen name="item_user_height_half">36dp</dimen>
     <dimen name="item_padding">8dp</dimen>
     <dimen name="item_margin">4dp</dimen>
 </resources>

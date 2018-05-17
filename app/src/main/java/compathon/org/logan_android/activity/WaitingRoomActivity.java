@@ -22,7 +22,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
@@ -245,6 +244,12 @@ public class WaitingRoomActivity extends AppCompatActivity {
                             String description = treeMap.containsKey("description") ? treeMap.get("description").toString() : "";
 
                             cardItem = new CardItem(name, image, description);
+
+                            Fragment fragment = PlayerFragment.newInstance(cardItem);
+                            FragmentManager fm = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                            fragmentTransaction.replace(R.id.playerFragment, fragment);
+                            fragmentTransaction.commit();
                         }
                     }
                 }

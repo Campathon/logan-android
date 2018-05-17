@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_user_height">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="7dp"
+            android:layout_marginEnd="@dimen/item_user_height_half"
+            android:layout_marginStart="@dimen/item_user_height_half"
+            android:layout_marginTop="7dp"
+            android:background="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/iv_bg_start"
+            android:layout_width="@dimen/item_user_height"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/bg_user_name_white" />
+
+        <ImageView
+            android:id="@+id/iv_bg_end"
+            android:layout_width="@dimen/item_user_height"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/bg_user_name_white" />
+
+        <TextView
+            android:id="@+id/tv_user_short_name"
+            android:layout_width="@dimen/item_user_height"
+            android:layout_height="@dimen/item_user_height"
+            android:layout_alignEnd="@id/iv_bg_start"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_user_name_gray"
+            android:gravity="center"
+            android:text="QD"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_card"
+            android:layout_width="@dimen/item_user_height"
+            android:layout_height="@dimen/item_user_height"
+            android:layout_alignStart="@id/iv_bg_end"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_user_name_gray"
+            android:padding="8dp"
+            android:src="@mipmap/ic_launcher" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_user_height"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/item_user_height_half"
+            android:layout_marginStart="@dimen/item_user_height_half"
+            android:layout_marginTop="@dimen/item_padding"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/item_user_height_half"
+            android:paddingStart="@dimen/item_user_height_half">
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/item_padding"
+                android:text="Quy Dz"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_user_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/item_margin"
+                android:text="Dân làng" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

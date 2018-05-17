@@ -72,8 +72,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical" />
 
-        <fragment
-            android:name="compathon.org.logan_android.fragment.HostFragment"
+        <FrameLayout
             android:id="@+id/hostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

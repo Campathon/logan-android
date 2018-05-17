@@ -22,11 +22,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -95,11 +97,11 @@ public class WaitingRoomActivity extends AppCompatActivity {
     @BindView(R.id.layoutContent)
     LinearLayout layoutContent;
 
-    @BindView(R.id.playerFragment)
-    View playerFragment;
-
-    @BindView(R.id.hostFragment)
-    View hostFragment;
+//    @BindView(R.id.playerFragment)
+//    View playerFragment;
+//
+//    @BindView(R.id.hostFragment)
+//    View hostFragment;
 
     private List<User> userList;
     private List<CardItem> cardItemList;
@@ -211,15 +213,16 @@ public class WaitingRoomActivity extends AppCompatActivity {
     }
 
     private void onStartGame() {
-            socket.on("startGame", new Emitter.Listener() {
+        socket.on("startGame", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 Log.e(TAG, "startGame: " + StringUtils.join(args));
                 if (!isHost) {
-                    List<User> userList = new Gson().fromJson(StringUtils.join(args), new TypeToken<List<User>>(){}.getType());
-                    for (User user: userList) {
+                    List<User> userList = new Gson().fromJson(StringUtils.join(args), new TypeToken<List<User>>() {
+                    }.getType());
+                    for (User user : userList) {
                         if (userId.equals(user._id)) {
-                            Fragment fragment = new PlayerFragment();
+                            PlayerFragment fragment = new PlayerFragment();
                             FragmentManager fm = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fm.beginTransaction();
                             fragmentTransaction.replace(R.id.playerFragment, fragment);
@@ -228,7 +231,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    playerFragment.setVisibility(View.VISIBLE);
+//                                    playerFragment.setVisibility(View.VISIBLE);
                                     layoutContent.setVisibility(View.GONE);
                                     layoutStartView.setVisibility(View.GONE);
                                 }
@@ -318,8 +321,8 @@ public class WaitingRoomActivity extends AppCompatActivity {
                 readyForPlayingGame();
             }
         });
-        playerFragment.setVisibility(View.GONE);
-        hostFragment.setVisibility(View.GONE);
+//        playerFragment.setVisibility(View.GONE);
+//        hostFragment.setVisibility(View.GONE);
 
     }
 
@@ -389,20 +392,53 @@ public class WaitingRoomActivity extends AppCompatActivity {
         RequestService.post(this, ListAPI.START_GAME, entity, dialog, new RequestComplete() {
             @Override
             public void onComplete(boolean success, int status, String message, JsonElement data) {
-                Toast.makeText(getBaseContext(), "goto playing room", Toast.LENGTH_SHORT).show();
+                JSONObject jsonData = null;
+                try {
+                    jsonData = new JSONObject(data.getAsJsonObject().toString());
+                    String resStatus = jsonData.getString("status");
 
-//                Intent mIntent = new Intent();
-//                mIntent.setClass(getBaseContext(), PlayingRoomActivity.class);
-//                startActivity(mIntent);
-                Fragment fragment = new HostFragment();
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.hostFragment, fragment);
-                fragmentTransaction.commit();
+                    if (!resStatus.equals("playing")) return;
 
-                hostFragment.setVisibility(View.VISIBLE);
-                layoutContent.setVisibility(View.GONE);
-                layoutStartView.setVisibility(View.GONE);
+                    HostFragment fragment = new HostFragment();
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+                    String jsonUsers = jsonData.getString("users");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("json_users", jsonUsers);
+                    fragment.setArguments(bundle);
+//                    fragment.initViews(bundle);
+
+                    fragmentTransaction.replace(R.id.hostFragment, fragment);
+                    fragmentTransaction.commit();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            layoutContent.setVisibility(View.GONE);
+                            layoutStartView.setVisibility(View.GONE);
+                        }
+                    });
+
+//                    String jsonUsers = jsonData.getString("users");
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("json_users", jsonUsers);
+//                    Fragment fragment = new HostFragment();
+//                    fragment.setArguments(bundle);
+//                    FragmentManager fm = getSupportFragmentManager();
+//                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//                    fragmentTransaction.replace(R.id.hostFragment, fragment);
+//                    fragmentTransaction.commit();
+//                    Log.i(TAG, data.toString());
+//
+//                    ((HostFragment) fragment).initViews(bundle);
+
+//                    layoutContent.setVisibility(View.GONE);
+//                    layoutStartView.setVisibility(View.GONE);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

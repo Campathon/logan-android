@@ -8,8 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
@@ -48,20 +51,26 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
         CardItem cardItem = playingUserItem.getCardItem();
 
         ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams)holder.container.getLayoutParams();
-        if (cardItem.name.equals("Sói đen")) {
-            layout.setMarginStart(240);
-            layout.setMarginEnd(12);
-        } else {
-            layout.setMarginStart(12);
-            layout.setMarginEnd(240);
-        }
+//        if (cardItem.name.equals("Sói đen")) {
+//            layout.setMarginStart(240);
+//            layout.setMarginEnd(12);
+//        } else {
+//            layout.setMarginStart(12);
+//            layout.setMarginEnd(240);
+//        }
 
-        holder.tvUserShorName.setText(playingUserItem.getShortName());
+//        holder.tvUserShorName.setText(playingUserItem.getShortName());
         holder.tvUserName.setText(playingUserItem.getName());
         holder.tvUserRole.setText(cardItem.name);
         Picasso.with(context).load(cardItem.image)
                 .error(R.mipmap.ic_launcher_round)
                 .into(holder.ivCard);
+
+        ColorGenerator generator = ColorGenerator.MATERIAL;
+        int color = generator.getRandomColor();
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(String.valueOf(playingUserItem.getShortName()),color);
+        holder.tvUserShorName.setImageDrawable(drawable);
 
         holder.ivCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +114,7 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
         View itemView;
 
         @BindView(R.id.tv_user_short_name)
-        TextView tvUserShorName;
+        ImageView tvUserShorName;
         @BindView(R.id.tv_user_name)
         TextView tvUserName;
         @BindView(R.id.tv_user_role)

@@ -17,6 +17,7 @@ public class PlayingUserItem {
         this._id = jsonUser.has("_id") ? jsonUser.getString("_id") : "";
         this.name = jsonUser.has("name") ? jsonUser.getString("name") : "";
         this.cardItem = jsonUser.has("card") ? new CardItem(jsonUser.getJSONObject("card")) : new CardItem();
+        this.shortName = this.name.charAt(0) + "";
     }
 
     public String getName() {

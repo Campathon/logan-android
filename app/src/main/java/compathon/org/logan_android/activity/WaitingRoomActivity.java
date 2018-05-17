@@ -221,11 +221,6 @@ public class WaitingRoomActivity extends AppCompatActivity {
                     }.getType());
                     for (User user : userList) {
                         if (userId.equals(user._id)) {
-                            PlayerFragment fragment = new PlayerFragment();
-                            FragmentManager fm = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                            fragmentTransaction.replace(R.id.playerFragment, fragment);
-                            fragmentTransaction.commit();
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -425,6 +420,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            lvUsersRoom.setVisibility(View.GONE);
                             layoutContent.setVisibility(View.GONE);
                             layoutStartView.setVisibility(View.GONE);
                         }

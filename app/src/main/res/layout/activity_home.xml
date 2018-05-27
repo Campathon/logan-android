@@ -87,7 +87,8 @@
             android:layout_height="wrap_content"
             android:text="@string/tipChooseHostRoom"
             android:textColor="#80ffffff"
-            android:layout_marginBottom="@dimen/padding_large"/>
+            android:layout_marginBottom="@dimen/padding_large"
+            />
 
         <Button
             android:id="@+id/btnCreateRoom"
@@ -98,9 +99,19 @@
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             android:text="@string/btnCreateRoom"
+            android:layout_marginBottom="@dimen/padding_large"
+            />
+
+        <TextView
+            android:id="@+id/tv_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"
+            android:text="@string/txtIntroduce"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
             />
 
     </LinearLayout>
-
 
 </LinearLayout>

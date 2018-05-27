@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Logan</string>
+    <string name="app_name">Chia bài ma sói</string>
 
     <!-- COMMON -->
     <string name="invalidNumberRoom">Số phòng không hợp lệ</string>
@@ -26,4 +26,6 @@
     <string name="confirmExit">Bạn có muốn thoát khỏi phòng này?</string>
     <string name="verifyNumberCard">Bạn cần chọn ít nhất 2 thẻ để chơi</string>
     <string name="closeRoom">Chủ phòng đã thoát bạn hãy ra chọn phòng mới!</string>
+    <string name="txtIntroduce"><i><u>Giới thiệu</u></i></string>
+    <string name="introduce">Chia bài ma sói hiện đã có trên nhiều nền tảng khác nhau:\t\n- Web: http://lo.netlify.com/ \t\n- iOS: Tìm kiếm với từ khóa \"Chia bài ma sói\" hoặc link tải: https://itunes.apple.com/us/app/chia-b%C3%A0i-ma-s%C3%B3i/id1386220375</string>
 </resources>

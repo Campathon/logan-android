@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -30,7 +31,6 @@ import compathon.org.logan_android.model.Room;
 import compathon.org.logan_android.model.User;
 import compathon.org.logan_android.service.CrashlyticsService;
 import compathon.org.logan_android.service.RequestService;
-import io.fabric.sdk.android.Fabric;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -42,6 +42,9 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.edtUsername)
     EditText edtUsername;
+
+    @BindView(R.id.tv_introduce)
+    TextView tvIntroduce;
 
     private static final String TAG = "HomeActivity";
 
@@ -61,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.btnJoinNow, R.id.btnCreateRoom})
+    @OnClick({R.id.btnJoinNow, R.id.btnCreateRoom, R.id.tv_introduce})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -123,6 +126,11 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
 
+                break;
+            case R.id.tv_introduce:
+                Intent startIntroduce = new Intent();
+                startIntroduce.setClass(HomeActivity.this, IntroduceActivity.class);
+                HomeActivity.this.startActivity(startIntroduce);
                 break;
             default:
                 break;

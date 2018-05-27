@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
 /**
@@ -22,6 +25,7 @@ public class Application extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
+        Fabric.with(this, new Crashlytics());
     }
 
 }

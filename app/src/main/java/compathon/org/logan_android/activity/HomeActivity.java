@@ -28,7 +28,9 @@ import compathon.org.logan_android.common.ListAPI;
 import compathon.org.logan_android.common.MathUtils;
 import compathon.org.logan_android.model.Room;
 import compathon.org.logan_android.model.User;
+import compathon.org.logan_android.service.CrashlyticsService;
 import compathon.org.logan_android.service.RequestService;
+import io.fabric.sdk.android.Fabric;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -115,6 +117,8 @@ public class HomeActivity extends AppCompatActivity {
                             intentCreateRoom.putExtra(Constants.kRoomCode, room.code);
                             intentCreateRoom.putExtra(Constants.kHostRoom, true);
                             startActivity(intentCreateRoom);
+
+                            CrashlyticsService.onCreateRoom();
                         }
                     }
                 });

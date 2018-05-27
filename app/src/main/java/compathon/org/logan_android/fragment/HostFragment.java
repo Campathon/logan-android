@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,8 @@ import butterknife.ButterKnife;
 import compathon.org.logan_android.R;
 import compathon.org.logan_android.adapter.PlayingUserAdapter;
 import compathon.org.logan_android.model.PlayingUserItem;
+import compathon.org.logan_android.service.CrashlyticsService;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Andy on 5/10/2018.

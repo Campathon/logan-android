@@ -48,6 +48,7 @@ import compathon.org.logan_android.fragment.HostFragment;
 import compathon.org.logan_android.fragment.PlayerFragment;
 import compathon.org.logan_android.model.CardItem;
 import compathon.org.logan_android.model.User;
+import compathon.org.logan_android.service.CrashlyticsService;
 import compathon.org.logan_android.service.RequestService;
 import compathon.org.logan_android.view.GridSpacingItemDecoration;
 import compathon.org.logan_android.view.SpacingItemDecoration;
@@ -369,11 +370,11 @@ public class WaitingRoomActivity extends AppCompatActivity {
 
     private void readyForPlayingGame() {
         JSONObject params = new JSONObject();
+        int numberOfCard = 0;
         try {
             params.put("room", roomCode);
             JSONArray cards = new JSONArray();
             List<CardItem> cardItemList = cardGridAdapter.getCardItemList();
-            int numberOfCard = 0;
             for (CardItem item : cardItemList) {
                 if (item.quantity > 0) {
                     JSONObject obj = new JSONObject();
@@ -393,6 +394,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
             Log.e(TAG, e.getMessage());
         }
 
+        final int numberOfCardFinal = numberOfCard;
         ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.loadingMessage), true);
         StringEntity entity = new StringEntity(params.toString(), "UTF-8");
         RequestService.post(this, ListAPI.START_GAME, entity, dialog, new RequestComplete() {
@@ -412,6 +414,8 @@ public class WaitingRoomActivity extends AppCompatActivity {
                     String jsonUsers = jsonData.getString("users");
                     Bundle bundle = new Bundle();
                     bundle.putString("json_users", jsonUsers);
+                    bundle.putString("room_id", String.valueOf(WaitingRoomActivity.this.roomId));
+                    bundle.putString("room_code", String.valueOf(WaitingRoomActivity.this.roomCode));
                     fragment.setArguments(bundle);
 
                     fragmentTransaction.replace(R.id.hostFragment, fragment);
@@ -425,6 +429,8 @@ public class WaitingRoomActivity extends AppCompatActivity {
                             layoutStartView.setVisibility(View.GONE);
                         }
                     });
+
+                    CrashlyticsService.onStartGame(numberOfCardFinal);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

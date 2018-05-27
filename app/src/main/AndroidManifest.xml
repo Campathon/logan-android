@@ -27,7 +27,8 @@
         <activity android:name=".activity.WaitingRoomActivity" />
         <activity
             android:name=".activity.IntroduceActivity"
-            android:label="@string/txtIntroduce" />
+            android:label="@string/txtIntroduce"
+            android:theme="@style/AppTheme"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"

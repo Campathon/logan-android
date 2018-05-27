@@ -27,5 +27,8 @@
     <string name="verifyNumberCard">Bạn cần chọn ít nhất 2 thẻ để chơi</string>
     <string name="closeRoom">Chủ phòng đã thoát bạn hãy ra chọn phòng mới!</string>
     <string name="txtIntroduce"><i><u>Giới thiệu</u></i></string>
-    <string name="introduce">Chia bài ma sói hiện đã có trên nhiều nền tảng khác nhau:\t\n- Web: http://lo.netlify.com/ \t\n- iOS: Tìm kiếm với từ khóa \"Chia bài ma sói\" hoặc link tải: https://itunes.apple.com/us/app/chia-b%C3%A0i-ma-s%C3%B3i/id1386220375</string>
+    <string name="introduce">\tKhông cần thẻ bài, bạn vẫn có thể chơi Ma sói cùng bạn bè mọi lúc, mọi nơi :)</string>
+    <string name="txtShareNow">Chia sẻ ngay với bạn bè</string>
+    <string name="introduce_platform">\tBạn có thể chơi trên nhiều nền tảng khác nhau: Android, iOS, Web.</string>
+    <string name="txtSharePlease">\tHãy chia sẻ tới mọi người để cùng nhau chơi trò chơi thú vị này nhé ;)</string>
 </resources>

@@ -382,7 +382,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
                     obj.put("total", item.quantity);
 
                     cards.put(obj);
-                    numberOfCard ++;
+                    numberOfCard += item.quantity;
                 }
             }
             if (numberOfCard < 2) {

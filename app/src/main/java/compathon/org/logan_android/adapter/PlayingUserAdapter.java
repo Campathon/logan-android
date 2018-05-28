@@ -22,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compathon.org.logan_android.R;
+import compathon.org.logan_android.dialog.CardInfoDialog;
 import compathon.org.logan_android.model.CardItem;
 import compathon.org.logan_android.model.PlayingUserItem;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -101,6 +102,14 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
                             }
                         })
                         .playOn(holder.container);
+            }
+        });
+
+        holder.ivCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CardInfoDialog cardInfoDialog = new CardInfoDialog(mContext, cardItem);
+                cardInfoDialog.show();
             }
         });
     }

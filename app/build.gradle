@@ -7,10 +7,10 @@ android {
     buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "compathon.org.logan_android"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 27
-        versionCode 10001
-        versionName "1.0.1"
+        versionCode 10002
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

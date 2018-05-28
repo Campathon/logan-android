@@ -33,4 +33,5 @@
     <string name="introduce_platform">\tBạn có thể chơi trên nhiều nền tảng khác nhau: Android, iOS, Web.</string>
     <string name="txtSharePlease">\tHãy chia sẻ tới mọi người để cùng nhau chơi trò chơi thú vị này nhé ;)</string>
     <string name="isDied">đã chết</string>
+    <string name="toundToOpendCard">Nhấn vào ảnh để mở/che bài</string>
 </resources>

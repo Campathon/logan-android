@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compathon.org.logan_android.R;
+import compathon.org.logan_android.dialog.CardInfoDialog;
 import compathon.org.logan_android.model.CardItem;
 
 /**
@@ -51,7 +52,8 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
             @Override
             public void onClick(View v) {
                 //showDialogNumber(position);
-                Toast.makeText(mContext, cardItem.name, Toast.LENGTH_SHORT).show();
+                CardInfoDialog cardInfoDialog = new CardInfoDialog(mContext, cardItem);
+                cardInfoDialog.show();
             }
         });
 

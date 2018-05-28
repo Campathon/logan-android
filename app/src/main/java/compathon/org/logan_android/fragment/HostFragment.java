@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 import compathon.org.logan_android.R;
 import compathon.org.logan_android.adapter.PlayingUserAdapter;
 import compathon.org.logan_android.model.PlayingUserItem;
-import compathon.org.logan_android.service.CrashlyticsService;
 
 
 /**

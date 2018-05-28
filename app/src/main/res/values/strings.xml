@@ -25,10 +25,12 @@
     <string name="btnExit">Thoát</string>
     <string name="confirmExit">Bạn có muốn thoát khỏi phòng này?</string>
     <string name="verifyNumberCard">Bạn cần chọn ít nhất 2 thẻ để chơi</string>
+    <string name="verifyNumberPlayer">Không có ai tham gia phòng\nHãy mời thêm bạn bè vào cùng chơi nào!</string>
     <string name="closeRoom">Chủ phòng đã thoát bạn hãy ra chọn phòng mới!</string>
     <string name="txtIntroduce"><i><u>Giới thiệu</u></i></string>
     <string name="introduce">\tKhông cần thẻ bài, bạn vẫn có thể chơi Ma sói cùng bạn bè mọi lúc, mọi nơi :)</string>
     <string name="txtShareNow">Chia sẻ ngay với bạn bè</string>
     <string name="introduce_platform">\tBạn có thể chơi trên nhiều nền tảng khác nhau: Android, iOS, Web.</string>
     <string name="txtSharePlease">\tHãy chia sẻ tới mọi người để cùng nhau chơi trò chơi thú vị này nhé ;)</string>
+    <string name="isDied">đã chết</string>
 </resources>

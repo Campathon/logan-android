@@ -1,21 +1,15 @@
 package compathon.org.logan_android.adapter;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,7 +17,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import compathon.org.logan_android.R;
-import compathon.org.logan_android.common.MathUtils;
 import compathon.org.logan_android.model.CardItem;
 
 /**
@@ -33,11 +26,13 @@ import compathon.org.logan_android.model.CardItem;
 public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardItemHolder> {
 
     private List<CardItem> cardItemList;
-    private Context context;
+    private Context mContext;
+    private boolean isHost;
 
-    public CardGridAdapter(Context context, List<CardItem> cardItemList) {
+    public CardGridAdapter(Context context, List<CardItem> cardItemList, boolean isHost) {
         this.cardItemList = cardItemList;
-        this.context = context;
+        this.mContext = context;
+        this.isHost = isHost;
     }
 
     @NonNull
@@ -56,7 +51,7 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
             @Override
             public void onClick(View v) {
                 //showDialogNumber(position);
-                Toast.makeText(context, cardItem.name, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, cardItem.name, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -70,7 +65,7 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
 //
 //        holder.tvAlias.setText(cardItem.alias);
 
-        Picasso.with(context).load(cardItem.image)
+        Picasso.with(mContext).load(cardItem.image)
                 .error(R.mipmap.ic_launcher_round)
                 .into(holder.imvThumbnail);
 
@@ -83,23 +78,28 @@ public class CardGridAdapter extends RecyclerView.Adapter<CardGridAdapter.CardIt
             }
         });
 
-        holder.tvDecrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cardItem.quantity--;
-                if (cardItem.quantity < 0) cardItem.quantity = 0;
-                updateQuantity(cardItem, holder);
-                cardItemList.get(position).quantity = cardItem.quantity;
-            }
-        });
-        holder.tvIncrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cardItem.quantity++;
-                updateQuantity(cardItem, holder);
-                cardItemList.get(position).quantity = cardItem.quantity;
-            }
-        });
+        if (isHost) {
+            holder.tvDecrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cardItem.quantity--;
+                    if (cardItem.quantity < 0) cardItem.quantity = 0;
+                    updateQuantity(cardItem, holder);
+                    cardItemList.get(position).quantity = cardItem.quantity;
+                }
+            });
+            holder.tvIncrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cardItem.quantity++;
+                    updateQuantity(cardItem, holder);
+                    cardItemList.get(position).quantity = cardItem.quantity;
+                }
+            });
+        } else {
+            holder.tvIncrease.setVisibility(View.GONE);
+            holder.tvDecrease.setVisibility(View.GONE);
+        }
     }
 
     @Override

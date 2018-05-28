@@ -3,13 +3,13 @@ package compathon.org.logan_android.adapter;
 import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -31,11 +31,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.PlayingUserItemHolder> {
 
     private List<PlayingUserItem> playingUserItemList;
-    private Context context;
+    private Context mContext;
 
     public PlayingUserAdapter(Context context, List<PlayingUserItem> playingUserItemList) {
         this.playingUserItemList = playingUserItemList;
-        this.context = context;
+        this.mContext = context;
     }
 
     @NonNull
@@ -48,9 +48,9 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
     @Override
     public void onBindViewHolder(@NonNull final PlayingUserAdapter.PlayingUserItemHolder holder, final int position) {
         final PlayingUserItem playingUserItem = playingUserItemList.get(position);
-        CardItem cardItem = playingUserItem.getCardItem();
+        final CardItem cardItem = playingUserItem.getCardItem();
 
-        ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams)holder.container.getLayoutParams();
+//        ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams)holder.container.getLayoutParams();
 //        if (cardItem.name.equals("Sói đen")) {
 //            layout.setMarginStart(240);
 //            layout.setMarginEnd(12);
@@ -61,7 +61,7 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
 
         holder.tvUserName.setText(playingUserItem.getName());
         holder.tvUserRole.setText(cardItem.name);
-        Picasso.with(context).load(cardItem.image)
+        Picasso.with(mContext).load(cardItem.image)
                 .error(R.mipmap.ic_launcher_round)
                 .into(holder.ivCard);
 
@@ -69,12 +69,19 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
         int color = generator.getRandomColor();
         TextDrawable drawable = TextDrawable.builder()
                 .buildRound(String.valueOf(playingUserItem.getShortName()),color);
-        holder.tvUserShorName.setImageDrawable(drawable);
+        holder.tvUserShortName.setImageDrawable(drawable);
 
 //        holder.ivCard.setOnClickListener(new View.OnClickListener() {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!playingUserItem.isDied()) {
+                    String msg = String.format("%1$s (%2$s) %3$s",
+                            playingUserItem.getName(),
+                            cardItem.name.toLowerCase(),
+                            mContext.getString(R.string.isDied));
+                    Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                }
                 YoYo.with(Techniques.FlipInX)
                         .duration(700)
                         .onStart(new YoYo.AnimatorCallback() {
@@ -114,7 +121,7 @@ public class PlayingUserAdapter extends RecyclerView.Adapter<PlayingUserAdapter.
         View itemView;
 
         @BindView(R.id.tv_user_short_name)
-        ImageView tvUserShorName;
+        ImageView tvUserShortName;
         @BindView(R.id.tv_user_name)
         TextView tvUserName;
         @BindView(R.id.tv_user_role)

@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -313,7 +312,7 @@ public class WaitingRoomActivity extends AppCompatActivity {
         layoutManagerCard.setOrientation(LinearLayoutManager.VERTICAL);
         lvGridCard.setLayoutManager(layoutManagerCard);
         lvGridCard.addItemDecoration(new GridSpacingItemDecoration(3, (int) 0, true));
-        cardGridAdapter = new CardGridAdapter(this, cardItemList);
+        cardGridAdapter = new CardGridAdapter(this, cardItemList, isHost);
         lvGridCard.setAdapter(cardGridAdapter);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
@@ -387,6 +386,10 @@ public class WaitingRoomActivity extends AppCompatActivity {
             }
             if (numberOfCard < 2) {
                 DialogUtils.showOkDialog(this, getString(R.string.verifyNumberCard), null);
+                return;
+            }
+            if (userList.isEmpty()) {
+                DialogUtils.showOkDialog(this, getString(R.string.verifyNumberPlayer), null);
                 return;
             }
             params.putOpt("cards", cards);

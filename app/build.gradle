@@ -9,8 +9,8 @@ android {
         applicationId "compathon.org.logan_android"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 10002
-        versionName "1.0.2"
+        versionCode 10003
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -39,7 +39,7 @@ buildscript {
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
-repositories{
+repositories {
     maven {
         url 'http://dl.bintray.com/amulyakhare/maven'
     }
@@ -67,7 +67,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.6'
     compile 'org.apache.httpcomponents:httpcore:4.3.2'
 
-    compile ('io.socket:socket.io-client:1.0.0') {
+    compile('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
